@@ -10,7 +10,7 @@ ifeq ($(SYSTEM), Linux)
 	HOST=localhost
 endif
 
-DB_URL = postgresql://postgres:@$(HOST):5432/explorer?ssl=false
+DB_URL = postgresql://${POSTGRES_USER}:${POSTGRES_PASSWORD}@$(HOST):5432/${POSTGRES_DB}?ssl=false
 BLOCKSCOUT_CONTAINER_PARAMS = -e 'MIX_ENV=prod' \
 															 -e 'DATABASE_URL=$(DB_URL)'
 ifeq ($(SYSTEM), Linux)
@@ -252,8 +252,9 @@ endif
 else
 	@echo "==> Creating new PostgreSQL container"
 	@docker run -d --name $(PG_CONTAINER_NAME) \
-					-e POSTGRES_PASSWORD="" \
-					-e POSTGRES_USER="postgres" \
+					-e POSTGRES_PASSWORD=${POSTGRES_PASSWORD} \
+					-e POSTGRES_USER=${POSTGRES_USER} \
+					-e POSTGRES_DB=${POSTGRES_DB}
 					-p 5432:5432 \
 					$(PG_CONTAINER_IMAGE)
 	@sleep 1

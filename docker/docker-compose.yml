@@ -1,0 +1,32 @@
+version: '3.1'
+services:
+  postgresql:
+    image: postgres
+    restart: always
+    env_file:
+        - db.env   
+    volumes:
+      - db-data:/var/lib/postgresql/data/
+    ports:
+      - 5432:5432
+#   blockscout:
+#     build: .
+#     restart: always
+#     environment:
+#         - ${SECRET_KEY_BASE}
+#         - ${NETWORK}
+#         - ${SUBNETWORK}
+#         - ${ETHEREUM_JSONRPC_VARIANT}
+#         - ${ETHEREUM_JSONRPC_WS_URL}
+#         - ${ETHEREUM_JSONRPC_HTTP_URL}
+#         - ${DATABASE_URL}
+#         - ${COIN}
+#         - ${MIX_ENV}
+#         - ${PORT}
+#         - ${POOL_SIZE}
+#     ports:
+#         - 4000:4000
+#     depends_on:
+#         - postgresql
+volumes:
+    db-data:
